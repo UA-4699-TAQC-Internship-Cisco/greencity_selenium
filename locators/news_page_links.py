@@ -1,4 +1,4 @@
-navbar_eco_news='/html/body/app-root/app-main/div/app-header/header/div[2]/div/div/nav/ul/li[1]'
+navbar_eco_news='/html/body/app-root/app-main/div/app-header/header/div[2]/div/div/nav/ul/li[1]/a'
 edit_news_button='//*[@id="main-content"]/div/div[1]/div[2]/a/div'
 news_autor='//*[@id="main-content"]/div/div[3]/div[2]/div[3]'
 news_title='//*[@id="main-content"]/div/div[3]/div[1]/div'
@@ -8,6 +8,9 @@ news_content='//*[@id="main-content"]/div/div[3]/div[3]/div[2]/div/div'
 first_from_interesting_news='//*[@id="main-content"]/div/app-eco-news-widget/div/div/div/div[1]/app-news-list-gallery-view/div'
 comment_textarea='//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div'
 comment_button='//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/button'
+first_comment_text='//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[3]/div[1]'
+first_comment_author='//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[2]/span'
+
 
 
 

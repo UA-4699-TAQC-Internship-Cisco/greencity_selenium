@@ -1,21 +1,50 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from locators.news_page_links import *
+from locators.eco_news_page import *
+
 
 class NewsPage():
 
     def __init__(self):
         self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
 
-    def open_news_by_link(self, link):
+    def open_page_by_link(self, link):
         self.driver.get(f'{link}')
+        self.driver.implicitly_wait(10)
 
-    def send_message(self):
-        pass
+    def send_message(self, message):
+        self.driver.implicitly_wait(10)
+        comment_textarea_fild=self.driver.find_element(By.XPATH, comment_textarea)
+        comment_textarea_fild.clear()
+        comment_textarea_fild.send_keys(message)
+        button=self.driver.find_element(By.XPATH, comment_button)
+        button.click()
 
     def right_like(self):
         pass
 
     def like_post(self):
         pass
+
+    def go_to_first_news(self):
+        eco_news=self.driver.find_element(By.XPATH, navbar_eco_news)
+        eco_news.click()
+        self.driver.implicitly_wait(10)
+        first_news=self.driver.find_element(By.XPATH, first_news_on_eco_news_page)
+        first_news.click()
+        self.driver.implicitly_wait(10)
+
+    def get_first_comment_data(self):
+        data = {
+            'author': self.driver.find_element(By.XPATH, first_comment_author).text,
+            'text': self.driver.find_element(By.XPATH, first_comment_text).text
+        }
+        return data
+
+    def get_news_title(self):
+        return self.driver.find_element(By.XPATH, news_title).text
+
 
 
