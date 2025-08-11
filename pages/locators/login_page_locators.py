@@ -6,14 +6,5 @@ PASSWORD_INPUT = (By.XPATH, "//input[@id='password']")
 LOGIN_BUTTON = (By.XPATH, "//button[@type='submit']")
 USERNAME_DISPLAY = (By.XPATH, "//li[@class='body-2 ubs-user-name']")
 
-
-# Eco news page locators
-
-
-# News page locators
-
-
-# Create news page locators
-
-
-# Edit news page locators
+GREEN_CITY_BTN = (By.XPATH, "//a[@class='url-name ng-star-inserted'][normalize-space()='Green City']")
+ECO_NEWS_BTN = (By.XPATH, "//a[@class='url-name ng-star-inserted'][normalize-space()='Eco news']")
