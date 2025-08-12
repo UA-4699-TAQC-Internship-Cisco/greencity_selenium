@@ -13,6 +13,7 @@ def send_comment_and_get_comment_data():
         return page.get_first_comment_data()
     return _sender_getter
 
+
 @pytest.fixture
 def get_news_title():
     page=NewsPage()
