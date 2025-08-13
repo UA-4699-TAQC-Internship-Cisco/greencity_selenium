@@ -9,7 +9,7 @@ import allure
 class LoginPage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 20)
+        self.wait = WebDriverWait(driver, 50)
 
     @allure.step("Open 'Login' page")
     def open_login_page(self, url):
