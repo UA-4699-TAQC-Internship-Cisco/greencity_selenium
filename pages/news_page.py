@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from locators.news_page_links import *
-from locators.eco_news_page import *
+from .locators.news_page_locators import *
+from .locators.eco_news_page_locators import *
 
 
 class NewsPage():
