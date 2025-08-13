@@ -1,8 +1,6 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from config.resources import CONTENT_TEXT, TITLE_TEXT, LINK
 from pages.locators.create_news_page_locators import *
 import allure
 
@@ -85,3 +83,33 @@ class CreateNewsPage:
 
     def click_preview_button(self):
         pass
+
+    @allure.step("Check text 'Please wait while loading'")
+    def check_loading_message(self):
+        loading_text = self.wait.until(EC.presence_of_element_located(lOADING_MESSAGE))
+        actual_text = loading_text.text
+        assert actual_text == "Please wait while loading..."
+
+    @allure.step("Verify 'News title' on tile")
+    def verify_news_title(self):
+        verify_title_text = self.wait.until(EC.presence_of_element_located(TITLE_ON_NEWS))
+        actual_title = verify_title_text.text
+        assert actual_title == TITLE_TEXT
+
+    @allure.step("Verify 'News tag' on tile")
+    def verify_news_tag(self):
+        verify_news_tag = self.wait.until(EC.presence_of_element_located(TAG_ON_NEWS))
+        actual_tag = verify_news_tag.text
+        assert actual_tag == "NEWS"
+
+    @allure.step("Verify 'News content' on tile")
+    def verify_news_content(self):
+        verify_news_content = self.wait.until(EC.presence_of_element_located(TEXT_ON_NEWS))
+        actual_content = verify_news_content.text
+        assert actual_content == "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+
+    @allure.step("Verify 'Username' on tile")
+    def verify_username_on_news_tile(self):
+        verify_username = self.wait.until(EC.presence_of_element_located(AUTHOR_ON_NEWS))
+        actual_name = verify_username.text
+        assert actual_name == EXPECTED_USERNAME
