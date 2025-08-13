@@ -1,3 +1,5 @@
+import time
+
 import allure
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -16,6 +18,8 @@ class LoginModal(BasePage):
     @allure.step("Open 'Login' page")
     def click_captcha(self):
         self.driver.uc_open_with_reconnect(self.driver.current_url, reconnect_time=6)
+        print("self.driver.uc_open_with_reconnect")
+        self.click_sign_in()
         self.driver.uc_gui_click_captcha()
         return self
 
