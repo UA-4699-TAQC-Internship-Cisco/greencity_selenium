@@ -1,5 +1,6 @@
+import pytest
+
 from pages.create_news_page import CreateNewsPage
-from tests.conftest import *
 
 
 @pytest.mark.create_news
