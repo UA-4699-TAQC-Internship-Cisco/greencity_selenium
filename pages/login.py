@@ -1,5 +1,3 @@
-import time
-
 import allure
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -55,7 +53,7 @@ class LoginModal(BasePage):
 
     @allure.step("Click 'Eco News' button")
     def click_eco_news_button(self):
-        btn = self.get_wait().until(EC.element_to_be_clickable(ECO_NEWS_BTN))
+        btn = self.get_wait().until(EC.presence_of_element_located(ECO_NEWS_BTN))
         btn.click()
 
     @allure.step("Click 'Create News' button")

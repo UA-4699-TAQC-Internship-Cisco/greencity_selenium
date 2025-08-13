@@ -6,10 +6,11 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class BasePage:
     sign_in_btn = (By.XPATH, "//a[contains(text(),'Sign in')]")
-    def __init__(self, driver: WebDriver ):
+
+    def __init__(self, driver: WebDriver):
         self.driver = driver
 
-    def get_wait(self, explicit_wait=20):
+    def get_wait(self, explicit_wait=30):
         return WebDriverWait(self.driver, explicit_wait)
 
     def click_sign_in(self):

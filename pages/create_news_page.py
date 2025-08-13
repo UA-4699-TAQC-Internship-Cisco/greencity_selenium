@@ -9,7 +9,6 @@ import allure
 
 class CreateNewsPage(BasePage):
 
-
     @allure.step("Check 'Create news' page title")
     def check_page_title(self):
         title_element = self.get_wait().until(EC.presence_of_element_located(PAGE_TITLE))
@@ -106,7 +105,7 @@ class CreateNewsPage(BasePage):
     def verify_news_content(self):
         verify_news_content = self.get_wait().until(EC.presence_of_element_located(TEXT_ON_NEWS))
         actual_content = verify_news_content.text
-        assert actual_content == "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        assert actual_content == CONTENT_TEXT
 
     @allure.step("Verify 'Username' on tile")
     def verify_username_on_news_tile(self):
