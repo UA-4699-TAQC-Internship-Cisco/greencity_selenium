@@ -1,5 +1,5 @@
 import pytest
-
+from pages.login import LoginModal
 from pages.create_news_page import CreateNewsPage
 
 

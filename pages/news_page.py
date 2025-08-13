@@ -31,7 +31,6 @@ class NewsPage(BasePage):
     def go_to_first_news(self):
         eco_news=self.driver.find_element(By.XPATH, navbar_eco_news)
         eco_news.click()
-        self.driver.implicitly_wait(10)
         first_news=self.driver.find_element(By.XPATH, first_news_on_eco_news_page)
         first_news.click()
         self.driver.implicitly_wait(10)

@@ -1,14 +1,13 @@
 import pytest
-from pages.login import LoginPage
-from config.resources import EXPECTED_USERNAME, DOMAIN, USER_EMAIL, USER_PASSWORD
+from pages.login import LoginModal
+from config.resources import EXPECTED_USERNAME, HOME_GREEN_CITY_UI, USER_EMAIL, USER_PASSWORD
 
 
 @pytest.mark.login
 def test_positive_login(driver_uc):
-    login_page = LoginPage(driver_uc)
+    login_page = LoginModal(driver_uc)
 
-    login_page.open_login_page(DOMAIN) \
-        .enter_email(USER_EMAIL) \
+    login_page.enter_email(USER_EMAIL) \
         .enter_password(USER_PASSWORD) \
         .click_login()
 
