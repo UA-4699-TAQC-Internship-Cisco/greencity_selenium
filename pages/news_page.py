@@ -1,15 +1,11 @@
-from selenium import webdriver
-from pages.locators.news_page_locators import *
-from pages.locators.eco_news_page_locators import *
-from selenium.webdriver.common.by import By
 import allure
 
+from pages.base_page import BasePage
+from pages.locators.eco_news_page_locators import *
+from pages.locators.news_page_locators import *
 
-class NewsPage():
 
-    def __init__(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
+class NewsPage(BasePage):
 
     @allure.step("Open page by link")
     def open_page_by_link(self, link):

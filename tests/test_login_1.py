@@ -1,7 +1,7 @@
 import pytest
 from seleniumbase import Driver
-from pages.login import LoginPage
-from config.resources import EXPECTED_USERNAME, DOMAIN, USER_EMAIL, USER_PASSWORD
+from pages.login import LoginModal
+from config.resources import EXPECTED_USERNAME, HOME_GREEN_CITY_UI, USER_EMAIL, USER_PASSWORD
 
 
 # @pytest.mark.login
@@ -23,9 +23,9 @@ from config.resources import EXPECTED_USERNAME, DOMAIN, USER_EMAIL, USER_PASSWOR
 def test_positive_login(driver_uc):
     # print(driver)
     # driver = Driver(uc=True, headless=False)
-    login_page = LoginPage(driver_uc)
+    login_page = LoginModal(driver_uc)
 
-    login_page.open_login_page(DOMAIN) \
+    login_page.open_login_page(HOME_GREEN_CITY_UI) \
         .enter_email(USER_EMAIL) \
         .enter_password(USER_PASSWORD) \
         .click_login()
