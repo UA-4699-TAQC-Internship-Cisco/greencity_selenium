@@ -4,7 +4,7 @@ from tests.conftest import *
 
 @pytest.mark.create_news
 def test_create_news(logged_in_driver):
-    login_page = LoginPage(logged_in_driver)
+    login_page = LoginModal(logged_in_driver)
 
     # Navigation to Create News
     login_page.click_green_city_button()
