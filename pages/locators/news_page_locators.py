@@ -1,4 +1,3 @@
-navbar_eco_news='/html/body/app-root/app-main/div/app-header/header/div[2]/div/div/nav/ul/li[1]/a'
 edit_news_button='//*[@id="main-content"]/div/div[1]/div[2]/a/div'
 news_autor='//*[@id="main-content"]/div/div[3]/div[2]/div[3]'
 news_title='//*[@id="main-content"]/div/div[3]/div[1]/div'

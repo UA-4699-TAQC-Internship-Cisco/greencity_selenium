@@ -1,8 +1,8 @@
 import allure
-
 from pages.base_page import BasePage
 from pages.locators.eco_news_page_locators import *
 from pages.locators.news_page_locators import *
+from pages.locators.navbar_locators import *
 
 
 class NewsPage(BasePage):
