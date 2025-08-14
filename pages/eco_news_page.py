@@ -8,6 +8,7 @@ class EcoNews(BasePage):
 
     @allure.step("Open eco news page")
     def go_to_eco_news_page(self):
+        self.driver.implicitly_wait(10)
         eco_news=self.driver.find_element(By.XPATH, navbar_eco_news)
         eco_news.click()
 
@@ -59,3 +60,16 @@ class EcoNews(BasePage):
         else:
             return False
 
+    def is_tag_filter_active(self, tag):
+        tag_to_dict = {
+            "NEWS": news_tag_button,
+            "EVENTS": events_tag_button,
+            "EDUCATION": education_tag_button,
+            "INITIATIVES": initiatives_tag_button,
+            "ADS": ads_tag_button
+        }
+
+        expected_activ_color = "rgba(19, 170, 87, 1)"
+        element = self.driver.find_element(By.XPATH, tag_to_dict[tag])
+        element_color = element.value_of_css_property("background-color")
+        return expected_activ_color == element_color

@@ -26,7 +26,7 @@ def driver() -> Generator[webdriver.Chrome, None, None]:
 
 
 @pytest.fixture()
-def driver_uc() -> Generator[DriverMethods]:
+def driver_uc() -> Generator[DriverMethods, None, None]:
     driver = Driver(uc=True, headless=False)
     driver.maximize_window()
     yield driver
