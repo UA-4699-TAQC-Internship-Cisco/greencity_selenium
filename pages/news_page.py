@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from pages.base import BasePage
-
+from pages.eco_news_list_page import EcoNewsListPage
 
 class NewsPage(BasePage):
     EDIT_NEWS = (By.XPATH, "//div[@class='edit-news']")
@@ -55,7 +55,7 @@ class NewsPage(BasePage):
         eco_news = self.driver.find_element(*self.navbar_eco_news)
         eco_news.click()
         self.driver.implicitly_wait(10)
-        first_news = self.driver.find_element(*self.first_news_on_eco_news_page)
+        first_news = self.driver.find_element(*self.EcoNewsListPage.first_news_on_eco_news_page)
         first_news.click()
         self.driver.implicitly_wait(10)
 

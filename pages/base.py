@@ -5,7 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 __all__ = ["BasePage", "BaseComponent"]
 
-from pages.header_component import Header
+, from pages.header_component import Header
 
 
 class Base:
