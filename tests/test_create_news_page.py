@@ -1,6 +1,7 @@
 import pytest
 
 from pages.create_news_page import CreateNewsPage
+from pages.login import LoginModal
 
 
 @pytest.mark.create_news
@@ -8,11 +9,11 @@ def test_create_news(logged_in_driver):
     login_page = LoginModal(logged_in_driver)
 
     # Navigation to Create News
-    login_page.click_green_city_button()
     login_page.click_eco_news_button()
     login_page.click_create_news_button()
 
     create_news_page = CreateNewsPage(logged_in_driver)
+
     # Check title
     create_news_page.check_page_title()
 
