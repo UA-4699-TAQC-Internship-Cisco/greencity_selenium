@@ -1,5 +1,7 @@
+import operator
+import sys
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-
 from pages.base import BasePage
 
 
@@ -16,48 +18,34 @@ class EcoNewsListPage(BasePage):
     first_news_on_eco_news_page = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
     second_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[2]/a/app-news-list-gallery-view/div/div/div[1]'
+    TAGS_XPATH={
+        'NEWS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a',
+        'EVENTS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a',
+        'EDUCATION': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a',
+        'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
+        'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a',
+    }
 
-    def click_news_filter(self):
-        news_filter_button = self.driver.find_element(By.XPATH, self.news_tag_button)
-        news_filter_button.click()
-        self.driver.implicitly_wait(5)
-        self.driver.refresh()
-
-    def click_events_filter(self):
-        news_filter_button = self.driver.find_element(By.XPATH, self.events_tag_button)
-        news_filter_button.click()
-        self.driver.implicitly_wait(5)
-        self.driver.refresh()
-
-    def click_education_filter(self):
-        news_filter_button = self.driver.find_element(By.XPATH, self.education_tag_button)
-        news_filter_button.click()
-        self.driver.implicitly_wait(5)
-        self.driver.refresh()
-
-    def click_initiatives_filter(self):
-        news_filter_button = self.driver.find_element(By.XPATH, self.initiatives_tag_button)
-        news_filter_button.click()
-        self.driver.implicitly_wait(5)
-        self.driver.refresh()
-
-    def click_ads_filter(self):
-        news_filter_button = self.driver.find_element(By.XPATH, self.ads_tag_button)
+    def click_tag_filter(self, tag):
+        news_filter_button = self.driver.find_element(By.XPATH, self.TAGS_XPATH[tag])
         news_filter_button.click()
         self.driver.implicitly_wait(5)
         self.driver.refresh()
 
     def get_tags_of_first_and_second_news(self):
-        # TODO: add "try" for case when news doesn't exist
-
-        first_element = self.driver.find_element(By.XPATH, self.first_news_tags_list)
-        second_element = self.driver.find_element(By.XPATH, self.second_news_tags_list)
-        return set(first_element.text.split('|\n') + second_element.text.split('|\n'))
+        try:
+            first_element = self.driver.find_element(By.XPATH, self.first_news_tags_list)
+            second_element = self.driver.find_element(By.XPATH, self.second_news_tags_list)
+        except NoSuchElementException:
+            print("Less than two comments found for this tag")
+            sys.exit()
+        else:
+            return first_element.text.split('|\n') + second_element.text.split('|\n')
 
     def is_tag_in_list(self, tag):
         list = self.get_tags_of_first_and_second_news()
         if tag in list:
-            return True
+            return 2 == operator.countOf(list, tag)
         else:
             return False
 
