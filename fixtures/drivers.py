@@ -26,7 +26,7 @@ def driver() -> Generator[webdriver.Chrome, None, None]:
 
 
 @pytest.fixture()
-def driver_uc() -> Generator[DriverMethods]:
+def driver_uc() -> Generator[DriverMethods, None, None]:
     driver = Driver(uc=True, headless=False)
     driver.maximize_window()
     yield driver
@@ -46,6 +46,7 @@ def logged_in_driver(driver_uc):
     assert displayed_name == EXPECTED_USERNAME
     yield driver_uc
 
+
 @pytest.fixture()
 def login_driver(driver) -> Generator[webdriver.Chrome, None, None]:
     driver.get(HOME_GREEN_CITY_UI)
@@ -55,6 +56,6 @@ def login_driver(driver) -> Generator[webdriver.Chrome, None, None]:
     driver.refresh()
     yield driver
     for key in LOCALSTORAGE.keys():
-            driver.execute_script(f"localStorage.removeItem('{key}');")
+        driver.execute_script(f"localStorage.removeItem('{key}');")
 
     driver.quit()
