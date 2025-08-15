@@ -17,3 +17,5 @@ class BasePage:
         print("click_sign_in")
         self.get_wait().until(EC.visibility_of_element_located(self.sign_in_btn))
         self.driver.find_element(*self.sign_in_btn).click()
+
+

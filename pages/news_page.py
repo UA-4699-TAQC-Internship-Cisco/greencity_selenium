@@ -1,5 +1,6 @@
 import allure
 
+from config.resources import NEWS_LINK
 from pages.base_page import BasePage
 from pages.locators.eco_news_page_locators import *
 from pages.locators.news_page_locators import *
@@ -48,5 +49,6 @@ class NewsPage(BasePage):
     def get_news_title(self):
         return self.driver.find_element(By.XPATH, news_title).text
 
-
-
+    @allure.step("Open created news by link")
+    def open_page_by_link(self, link):
+        self.driver.get(link)
