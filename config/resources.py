@@ -22,3 +22,8 @@ CONTENT_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
 TITLE_TEXT = "What is Lorem Ipsum?"
 LINK = "https://www.lipsum.com/"
 NEWS_TAG = "NEWS"
+NEWS_LINK = "https://www.greencity.cx.ua/#/greenCity/news/343"
+EDITED_CONTENT = "qwertyuiopasdfghj19"
+WARNING_MSG1 = "Must be minimum 20 and maximum 63 206 symbols"
+WARNING_MSG2 = "Not enough characters. Left: 1"
+
