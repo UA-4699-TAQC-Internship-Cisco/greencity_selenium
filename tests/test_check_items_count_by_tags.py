@@ -17,7 +17,7 @@ def test_check_items_count_by_tags(login_driver):
 
     for tag in tags:
         page.click_tag_filter(tag)
-        tiles_count = page.get_news_tiles_count()
+        tiles_count = len(page.get_news_tiles_count())
         string_count = page.get_news_count_from_string()
         assert int(tiles_count) == int(string_count)
         page.click_tag_filter(tag)

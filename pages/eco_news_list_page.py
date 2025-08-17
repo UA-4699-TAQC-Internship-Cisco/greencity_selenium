@@ -84,4 +84,4 @@ class EcoNewsListPage(BasePage):
         elements = [el for el in self.driver.find_elements(By.CSS_SELECTOR, self.NEWS_TILES) if el.is_displayed()]
         self.driver.execute_script("window.scrollTo(0, 0);")
 
-        return len(elements)
+        return elements
