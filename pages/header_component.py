@@ -2,7 +2,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.base import BaseComponent
+from pages.base_component import BaseComponent
 from pages.eco_news_list_page import EcoNewsListPage
 from pages.login import LoginModal
 
@@ -29,7 +29,7 @@ class Header(BaseComponent):
             return username
 
     @allure.step("Click 'Eco News' button")
-    def click_eco_news_button(self) -> EcoNewsListPage:
+    def click_eco_news_button(self):
         btn = self.get_wait().until(EC.presence_of_element_located(self.ECO_NEWS_BTN))
         btn.click()
         return EcoNewsListPage(self.driver)
