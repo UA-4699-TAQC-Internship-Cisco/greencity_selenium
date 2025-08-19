@@ -5,8 +5,8 @@ from pages.base import Base
 
 
 class BasePage(Base):
-    header_locator1 = (By.XPATH, "//header[@aria-label='Welcome to header']")
-    header_locator = (By.XPATH, "//a[contains(text(),'Sign in')]")
+    header_locator = (By.XPATH, "//header")
+
 
     @allure.step("Open news by link")
     def open_page_by_link(self, link):
@@ -14,4 +14,4 @@ class BasePage(Base):
 
     def get_header(self):
         from pages.header_component import Header
-        return Header(self.driver, self.driver.find_element(*self.header_locator1))
+        return Header(self.driver, self.driver.find_element(*self.header_locator))
