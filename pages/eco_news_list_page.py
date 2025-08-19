@@ -4,8 +4,9 @@ import sys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
 from seleniumbase.fixtures.page_actions import send_keys
+from selenium.webdriver.common.keys import Keys
+
 
 from pages.base import BasePage
 
@@ -101,9 +102,9 @@ class EcoNewsListPage(BasePage):
             .find_element(By.XPATH, self.SEARCH_TEXTBOX) \
             .send_keys(word + Keys.ENTER)
         ActionChains(self.driver).perform()
+
         time.sleep(2)
         self.driver.implicitly_wait(10)
-        time.sleep(2)
 
 
 
