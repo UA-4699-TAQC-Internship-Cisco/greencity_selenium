@@ -3,6 +3,7 @@ import operator
 import sys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 from pages.base import BasePage
 
@@ -31,6 +32,10 @@ class EcoNewsListPage(BasePage):
         'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
         'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a',
     }
+    #search
+    SEARCH_BUTTON = '//*[@id="main-content"]/div/div[1]/div/div/div[1]/span'
+    SEARCH_TEXTBOX = '//*[@id="main-content"]/div/div[1]/div/div/div[1]/input'
+
 
     def get_news_count_from_string(self):
         count_string = self.driver.find_element(By.XPATH, self.NEWS_COUNT_STRING).text
@@ -85,3 +90,17 @@ class EcoNewsListPage(BasePage):
         self.driver.execute_script("window.scrollTo(0, 0);")
 
         return elements
+
+    def search(self, word):
+        self.driver.find_element(By.XPATH, self.SEARCH_BUTTON).click()
+
+        self.get_wait()
+        self.driver.find_element(By.XPATH, self.SEARCH_TEXTBOX).clear()
+        self.driver.find_element(By.XPATH, self.SEARCH_TEXTBOX).send_keys(word)
+        # self.driver.refresh()
+        time.sleep(2)
+        self.driver.implicitly_wait(10)
+        time.sleep(2)
+
+
+
