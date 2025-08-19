@@ -1,4 +1,6 @@
 import pytest
+
+from config.resources import HOME_GREEN_CITY_UI
 from pages.news_page import NewsPage
 
 
@@ -15,7 +17,7 @@ def send_comment_and_get_comment_data(login_driver):
 @pytest.fixture
 def get_news_title():
     page=NewsPage()
-    page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity")
+    page.open_page_by_link(HOME_GREEN_CITY_UI)
     page.go_to_first_news()
     title=page.get_news_title()
     return title

@@ -2,12 +2,12 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from config.resources import CONTENT_TEXT, TITLE_TEXT
-from pages.base import BasePage
+from config.resources import CONTENT_TEXT, TITLE_TEXT, EXPECTED_USERNAME, LINK
+from pages.base_page import BasePage
 
 
 class CreateNewsPage(BasePage):
-    PAGE_TITLE = (By.XPATH, "//h2[@class='title-header' and text()='Create news']")
+    PAGE_TITLE = (By.XPATH, "//h2[@class='title-header']")
     INPUT_TITLE = (By.XPATH, "//textarea[@formcontrolname='title']")
 
     NEWS_TAG = (By.XPATH, "//span[@class='text' and text()='News']")
@@ -39,6 +39,7 @@ class CreateNewsPage(BasePage):
           '{CONTENT_TEXT}')])[1]")
 
     AUTHOR_ON_NEWS = (By.XPATH, "(//app-news-list-gallery-view//span[contains(text(), 'Marta')])[1]")
+    ECO_NEWS_BTN = (By.XPATH, "//a[contains(@class,'url-name') and normalize-space()='Eco news']")
 
     @allure.step("Check 'Create news' page title")
     def check_page_title(self):
