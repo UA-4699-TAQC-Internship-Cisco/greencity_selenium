@@ -144,5 +144,3 @@ class CreateNewsPage(BasePage):
         verify_username = self.get_wait().until(EC.presence_of_element_located(self.AUTHOR_ON_NEWS))
         actual_name = verify_username.text
         assert actual_name == EXPECTED_USERNAME
-
-

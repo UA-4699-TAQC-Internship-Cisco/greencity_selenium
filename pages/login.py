@@ -9,20 +9,12 @@ from pages.my_space_page import MySpace
 class LoginModal(BaseComponent):
     EMAIL_INPUT = (By.XPATH, "//input[@id='email']")
     PASSWORD_INPUT = (By.XPATH, "//input[@id='password']")
-    LOGIN_BUTTON = (By.XPATH, "//button[@type='submit']")
-    GREEN_CITY_BTN = (By.XPATH, "//a[@class='url-name ng-star-inserted'][normalize-space()='Green City']")
-    SIGN_IN_BTN = (By.XPATH, "//a[@role='link']")
-
-    def click_sign_in(self):
-        self.get_wait().until(EC.element_to_be_clickable(self.SIGN_IN_BTN)).click()
-        return self
+    SIGN_IN_BUTTON = (By.XPATH, "//button[contains(text(),'Sign in')]")
 
     @allure.step("Open 'Login' page")
     def click_captcha(self):
-        self.driver.uc_open_with_reconnect(self.driver.current_url, reconnect_time=6)
-        print("self.driver.uc_open_with_reconnect")
-        self.click_sign_in()
-        self.driver.uc_gui_click_captcha()
+        # self.driver.uc_open_with_reconnect(self.driver.current_url, reconnect_time=6)
+        # self.driver.uc_gui_click_captcha()
         return self
 
     @allure.step("Input email: {email}")
@@ -40,13 +32,7 @@ class LoginModal(BaseComponent):
         return self
 
     @allure.step("Click login")
-    def click_login(self) -> MySpace:
-        login_btn = self.get_wait().until(EC.element_to_be_clickable(self.LOGIN_BUTTON))
+    def click_sign_in_btn(self) -> MySpace:
+        login_btn = self.get_wait().until(EC.element_to_be_clickable(self.SIGN_IN_BUTTON))
         login_btn.click()
         return MySpace(self.driver)
-
-    # Steps after login
-    @allure.step("Click 'Green City' button")
-    def click_green_city_button(self):
-        btn = self.get_wait().until(EC.element_to_be_clickable(self.GREEN_CITY_BTN))
-        btn.click()

@@ -8,6 +8,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 @pytest.mark.create_news
 def test_create_news(logged_in_driver):
     # Navigation to Create News
+    print("test_create_news")
     header = BasePage(logged_in_driver).get_header()
     header.click_eco_news_button()
 

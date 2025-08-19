@@ -1,3 +1,4 @@
+import time
 from typing import Generator
 
 import pytest
@@ -9,8 +10,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 from config.resources import *
 from pages import BasePage
-from pages.login import LoginModal
-from pages.header_component import Header
 
 
 @pytest.fixture()
@@ -36,27 +35,18 @@ def driver_uc() -> Generator[DriverMethods, None, None]:
 
 
 @pytest.fixture()
-# def logged_in_driver(driver_uc):
-#     driver_uc.get(HOME_GREEN_CITY_UI)
-#
-#     login_page = LoginModal(driver_uc)
-#     login_page.click_captcha() \
-#         .enter_email(USER_EMAIL) \
-#         .enter_password(USER_PASSWORD) \
-#         .click_login()
-#     displayed_name = login_page.get_displayed_username()
-#     assert displayed_name == EXPECTED_USERNAME
-#     yield driver_uc
 def logged_in_driver(driver_uc):
     driver_uc.get(HOME_GREEN_CITY_UI)
-
+    print("test started")
+    time.sleep(3)
     header = BasePage(driver_uc).get_header()
-
-    header.click_sign_in() \
-        .click_captcha() \
-        .enter_email(USER_EMAIL) \
-        .enter_password(USER_PASSWORD) \
-        .click_login()
+    print(f"{header=}")
+    (header
+     .click_sign_in()
+     .click_captcha()
+     .enter_email(USER_EMAIL)
+     .enter_password(USER_PASSWORD)
+     .click_sign_in_btn())
 
     displayed_name = header.get_displayed_username()
     assert displayed_name == EXPECTED_USERNAME

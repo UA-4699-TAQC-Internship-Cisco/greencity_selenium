@@ -7,5 +7,5 @@ class Base:
     def __init__(self, driver: WebDriver):
         self.driver = driver
 
-    def get_wait(self, explicit_wait=120):
+    def get_wait(self, explicit_wait=20):
         return WebDriverWait(self.driver, explicit_wait)

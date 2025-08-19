@@ -1,3 +1,5 @@
+import time
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,9 +19,7 @@ class Header(BaseComponent):
         self.node = node
 
     def click_sign_in(self) -> LoginModal:
-        print("click_sign_in")
-        self.get_wait().until(EC.visibility_of_element_located(self.sign_in_btn))
-        we = self.driver.find_element(*self.sign_in_btn)
+        we = self.get_wait().until(EC.visibility_of_element_located(self.sign_in_btn))
         we.click()
         return LoginModal(self.driver, we)
 
