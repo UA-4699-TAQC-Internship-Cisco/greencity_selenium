@@ -2,6 +2,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+from config.resources import *
 from pages.base_page import BasePage
 
 
@@ -12,11 +13,12 @@ class NewsPage(BasePage):
     edit_news_button = (By.XPATH, '//*[@id="main-content"]/div/div[1]/div[2]/a/div')
     news_autor = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[2]/div[3]')
     news_title = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[1]/div')
+    NEWS_TITLE = (By.XPATH, "//div[@class='news-title word-wrap']")
+    NEWS_CONTENT = (By.XPATH, "//div[@class='ql-editor']")
     like_news_button = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[2]/div[4]/img')
     like_news_count = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[2]/div[4]/span')
     news_content = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[3]/div[2]/div/div')
-    first_from_interesting_news = (By.XPATH,
-                                   '//*[@id="main-content"]/div/app-eco-news-widget/div/div/div/div[1]/app-news-list-gallery-view/div')
+    FIRST_NEWS_FROM_INTERESTING = (By.XPATH, '(//div[@class="title-list word-wrap"])[1]')
     comment_textarea = (By.XPATH,
                         '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div')
     comment_button = (By.XPATH, '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/button')
@@ -68,3 +70,35 @@ class NewsPage(BasePage):
     @allure.step("Get news title")
     def get_news_title(self):
         return self.driver.find_element(*self.news_title).text
+
+
+    @allure.step("Check 'Eco news' title")
+    def check_news_title(self):
+        title_element = self.get_wait().until(EC.presence_of_element_located(self.NEWS_TITLE))
+        actual_text = title_element.text
+        assert actual_text == TITLE_TEXT
+
+    @allure.step("Check 'Eco news' content")
+    def check_news_content(self):
+        title_element = self.get_wait().until(EC.presence_of_element_located(self.NEWS_CONTENT))
+        actual_text = title_element.text
+        assert actual_text == CONTENT_TEXT
+
+    @allure.step("Click 'Interesting' news")
+    def click_interesting_news(self):
+        news_tile = self.get_wait().until(EC.element_to_be_clickable(self.FIRST_NEWS_FROM_INTERESTING))
+        news_tile.click()
+
+    @allure.step("Get 'Interesting' news title")
+    def get_first_news_title(self):
+        title_element = self.get_wait().until(EC.presence_of_element_located(self.FIRST_NEWS_FROM_INTERESTING))
+        actual_text = title_element.text
+        print(actual_text)
+        return actual_text
+
+    @allure.step("Compare news titles from main and 'Interesting' sections")
+    def compare_news_titles(self):
+        main_title = self.get_first_news_title()
+        interesting_title = self.check_news_title()
+        assert main_title == interesting_title
+        return True

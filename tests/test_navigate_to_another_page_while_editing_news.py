@@ -1,6 +1,7 @@
 import pytest
 
 from pages import BasePage
+from pages.eco_news_list_page import EcoNewsListPage
 from pages.edit_news_page import EditNewsPage
 from pages.header_component import Header
 from pages.news_page import NewsPage
@@ -20,3 +21,9 @@ def test_edit_news_content_field(logged_in_driver):
     eco_news_btn = Header(logged_in_driver, node=None)
     eco_news_btn.click_eco_news_button()
     edit_news.click_yes_cancel_btn()
+
+    page_title = EcoNewsListPage(logged_in_driver)
+    page_title.check_eco_news_title()
+
+    edit_news.open_news_page()
+    news.check_news_title()
