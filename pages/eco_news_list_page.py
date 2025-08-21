@@ -1,21 +1,27 @@
+import time
 import operator
 import sys
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+
 from pages.base import BasePage
 
 
 class EcoNewsListPage(BasePage):
     CREATE_NEWS = (By.XPATH, "//div[@id='create-button' and .//span[text()='Create news']]")
+    SCROLL_PAUSE_TIME = 1
 
     # tag buttons
-    news_tag_button = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a'
-    events_tag_button = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a'
-    education_tag_button = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a'
-    initiatives_tag_button = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a'
-    ads_tag_button = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a'
+    NEWS_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a'
+    EVENTS_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a'
+    EDUCATION_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a'
+    INITIATIVES_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a'
+    ADS_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a'
     # news
-    first_news_on_eco_news_page = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
+    FIRST_NEWS_ON_ECO_NEWS = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
+    NEWS_COUNT_STRING = '//*[@id="main-content"]/div/div[3]/app-remaining-count/div/h2'
+    NEWS_TILES = "ul[aria-label='news list'] li"
+
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
     second_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[2]/a/app-news-list-gallery-view/div/div/div[1]'
     TAGS_XPATH={
@@ -25,6 +31,10 @@ class EcoNewsListPage(BasePage):
         'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
         'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a',
     }
+
+    def get_news_count_from_string(self):
+        count_string = self.driver.find_element(By.XPATH, self.NEWS_COUNT_STRING).text
+        return count_string.split(' ')[0]
 
     def click_tag_filter(self, tag):
         news_filter_button = self.driver.find_element(By.XPATH, self.TAGS_XPATH[tag])
@@ -50,11 +60,28 @@ class EcoNewsListPage(BasePage):
             return False
 
     def is_tag_filter_active(self, tag):
-        tag_to_dict = {"NEWS": self.news_tag_button, "EVENTS": self.events_tag_button,
-            "EDUCATION": self.education_tag_button, "INITIATIVES": self.initiatives_tag_button,
-            "ADS": self.ads_tag_button}
+        tag_to_dict = {"NEWS": self.NEWS_TAG_BUTTON, "EVENTS": self.EVENTS_TAG_BUTTON,
+                       "EDUCATION": self.EDUCATION_TAG_BUTTON, "INITIATIVES": self.INITIATIVES_TAG_BUTTON,
+                       "ADS": self.ADS_TAG_BUTTON}
 
         expected_activ_color = "rgba(19, 170, 87, 1)"
         element = self.driver.find_element(By.XPATH, tag_to_dict[tag])
         element_color = element.value_of_css_property("background-color")
         return expected_activ_color == element_color
+
+    def get_news_tiles_count(self):
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+
+        while True:
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(self.SCROLL_PAUSE_TIME)
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break
+            last_height = new_height
+            self.driver.implicitly_wait(10)
+
+        elements = [el for el in self.driver.find_elements(By.CSS_SELECTOR, self.NEWS_TILES) if el.is_displayed()]
+        self.driver.execute_script("window.scrollTo(0, 0);")
+
+        return elements
