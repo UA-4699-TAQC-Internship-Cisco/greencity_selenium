@@ -1,4 +1,4 @@
-import time
+from __future__ import annotations
 
 import allure
 from selenium.webdriver.common.by import By
