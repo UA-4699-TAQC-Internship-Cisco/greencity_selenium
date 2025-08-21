@@ -2,13 +2,17 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from pages.base import BasePage
+from config.resources import *
+from pages.base_page import BasePage
 
 
 class EditNewsPage(BasePage):
     EDIT_CONTENT = (By.XPATH, "//div[@class='ql-editor']")
     WARNING_MESSAGE1 = (By.XPATH, "//p[@class='field-info warning']")
     WARNING_MESSAGE2 = (By.XPATH, "//p[@class='quill-counter warning']")
+    EDIT_NEWS_BTN = (By.XPATH, "//button[contains(@class,'primary-global-button') and @disabled]")
+    YES_CANCEL_BTN = (By.XPATH, "//button[@class='m-btn primary-global-button']")
+    CONTENT_FIELD = (By.XPATH, "//div[@class='ql-editor ql-blank']")
 
     @allure.step("Open News Page")
     def open_news_page(self):
@@ -21,6 +25,14 @@ class EditNewsPage(BasePage):
         assert enter_content.is_enabled()
         enter_content.clear()
         enter_content.send_keys(EDITED_CONTENT)
+        return self
+
+    @allure.step("Edit 'Content' field")
+    def edit_content_text(self):
+        enter_content = self.get_wait().until(EC.element_to_be_clickable(self.EDIT_CONTENT))
+        assert enter_content.is_enabled()
+        enter_content.clear()
+        enter_content.send_keys(EDITED_CONTENT_TEXT)
         return self
 
     @allure.step("Check 'Edit news' button disabled")
@@ -46,3 +58,8 @@ class EditNewsPage(BasePage):
         click_news_btn = until
         assert click_news_btn.get_attribute("disabled") is not None
         assert not click_news_btn.is_enabled()
+
+    @allure.step("Click 'Yes, cancel' button")
+    def click_yes_cancel_btn(self):
+        cancel_btn = self.get_wait().until(EC.element_to_be_clickable(self.YES_CANCEL_BTN))
+        cancel_btn.click()

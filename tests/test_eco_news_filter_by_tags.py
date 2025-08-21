@@ -1,7 +1,6 @@
 import pytest
 
 from pages.eco_news_list_page import EcoNewsListPage
-from pages.base import BasePage
 
 
 @pytest.mark.eco_news_filter_by_tags

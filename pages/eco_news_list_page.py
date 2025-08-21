@@ -1,15 +1,19 @@
 import time
-import operator
-import sys
+
+import allure
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
-from pages.base import BasePage
+from config.resources import ECO_NEWS_TITLE_TEXT
+from pages.base_page import BasePage
 
 
 class EcoNewsListPage(BasePage):
-    CREATE_NEWS = (By.XPATH, "//div[@id='create-button' and .//span[text()='Create news']]")
     SCROLL_PAUSE_TIME = 1
+
+    CREATE_NEWS = (By.XPATH, "//div[@id='create-button' and .//span[text()='Create news']]")
+    ECO_NEWS_TITLE = (By.XPATH, "//h1[@class='main-header']")
 
     # tag buttons
     NEWS_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a'
@@ -24,13 +28,22 @@ class EcoNewsListPage(BasePage):
 
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
     second_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[2]/a/app-news-list-gallery-view/div/div/div[1]'
-    TAGS_XPATH={
-        'NEWS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a',
+    TAGS_XPATH = {'NEWS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a',
         'EVENTS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a',
         'EDUCATION': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a',
         'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
-        'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a',
-    }
+        'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a', }
+
+    @allure.step("Click 'Create news' button")
+    def click_create_news_button(self):
+        publish_btn = self.get_wait().until(EC.element_to_be_clickable(self.CREATE_NEWS))
+        publish_btn.click()
+
+    @allure.step("Check 'Eco news' page title")
+    def check_eco_news_title(self):
+        title_element = self.get_wait().until(EC.presence_of_element_located(self.ECO_NEWS_TITLE))
+        actual_text = title_element.text
+        assert actual_text == ECO_NEWS_TITLE_TEXT
 
     def get_news_count_from_string(self):
         count_string = self.driver.find_element(By.XPATH, self.NEWS_COUNT_STRING).text
@@ -46,16 +59,16 @@ class EcoNewsListPage(BasePage):
         try:
             first_element = self.driver.find_element(By.XPATH, self.first_news_tags_list)
             second_element = self.driver.find_element(By.XPATH, self.second_news_tags_list)
-        except NoSuchElementException:
+        except NoSuchElementException as error:
             print("Less than two comments found for this tag")
-            sys.exit()
+            raise error
         else:
             return first_element.text.split('|\n') + second_element.text.split('|\n')
 
     def is_tag_in_list(self, tag):
-        list = self.get_tags_of_first_and_second_news()
+        tags = self.get_tags_of_first_and_second_news()
         if tag in list:
-            return 2 == operator.countOf(list, tag)
+            return 2 == tags.count(tag)
         else:
             return False
 
