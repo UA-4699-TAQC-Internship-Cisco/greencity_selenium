@@ -7,7 +7,6 @@ from pages.base import Base
 class BasePage(Base):
     header_locator = (By.XPATH, "//header")
 
-
     @allure.step("Open news by link")
     def open_page_by_link(self, link):
         self.driver.get(link)
