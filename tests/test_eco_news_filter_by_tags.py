@@ -11,6 +11,6 @@ def test_eco_news_filter_by_tags(login_driver):
     # step_1
     for tag in tags:
         page.click_tag_filter(tag)
-        assert page.is_tag_in_list(tag) == True
-        assert page.is_tag_filter_active(tag) == True
+        assert page.is_tag_in_list(tag)
+        assert page.is_tag_filter_active(tag)
         page.click_tag_filter(tag)

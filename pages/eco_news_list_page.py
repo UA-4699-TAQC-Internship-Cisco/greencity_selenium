@@ -45,9 +45,9 @@ class EcoNewsListPage(BasePage):
         actual_text = title_element.text
         assert actual_text == ECO_NEWS_TITLE_TEXT
 
-    def get_news_count_from_string(self):
+    def get_news_count_from_string(self)->int:
         count_string = self.driver.find_element(By.XPATH, self.NEWS_COUNT_STRING).text
-        return count_string.split(' ')[0]
+        return int(count_string.split(' ')[0])
 
     def click_tag_filter(self, tag):
         news_filter_button = self.driver.find_element(By.XPATH, self.TAGS_XPATH[tag])
@@ -82,7 +82,7 @@ class EcoNewsListPage(BasePage):
         element_color = element.value_of_css_property("background-color")
         return expected_activ_color == element_color
 
-    def get_news_tiles_count(self):
+    def get_news_items(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
