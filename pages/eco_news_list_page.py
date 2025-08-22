@@ -14,6 +14,8 @@ class EcoNewsListPage(BasePage):
 
     CREATE_NEWS = (By.XPATH, "//div[@id='create-button' and .//span[text()='Create news']]")
     ECO_NEWS_TITLE = (By.XPATH, "//h1[@class='main-header']")
+    BOOKMARK_BUTTON = '//*[@id="main-content"]/div/div[1]/div/div/div[2]/span'
+    EXPECTED_ACTIV_COLOR = "rgba(19, 170, 87, 1)"
 
     # tag buttons
     NEWS_TAG_BUTTON = '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a'
@@ -77,10 +79,9 @@ class EcoNewsListPage(BasePage):
                        "EDUCATION": self.EDUCATION_TAG_BUTTON, "INITIATIVES": self.INITIATIVES_TAG_BUTTON,
                        "ADS": self.ADS_TAG_BUTTON}
 
-        expected_activ_color = "rgba(19, 170, 87, 1)"
         element = self.driver.find_element(By.XPATH, tag_to_dict[tag])
         element_color = element.value_of_css_property("background-color")
-        return expected_activ_color == element_color
+        return self.EXPECTED_ACTIV_COLOR == element_color
 
     def get_news_items(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -98,3 +99,13 @@ class EcoNewsListPage(BasePage):
         self.driver.execute_script("window.scrollTo(0, 0);")
 
         return elements
+
+    @allure.step('Click bookmark')
+    def click_bookmark_button(self):
+        bookmark_button = self.driver.find_element(By.XPATH, self.BOOKMARK_BUTTON)
+        bookmark_button.click()
+        self.driver.execute_script('return document.body.innerHTML')
+
+    def news_with_bookmark(self):
+        bookmark = self.driver.find_elements(By.CSS_SELECTOR, ".flag-active")
+        return bookmark
