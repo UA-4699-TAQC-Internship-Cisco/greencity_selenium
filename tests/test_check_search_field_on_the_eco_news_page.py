@@ -1,4 +1,6 @@
 import time
+from time import sleep
+
 import pytest
 from pages.eco_news_list_page import EcoNewsListPage
 
@@ -12,14 +14,12 @@ def test_test_check_search_field(login_driver):
     for word in search_words:
 
         word_tiles_count = 0
-        tiles = page.get_news_tiles_count()
+        tiles = page.get_news_items()
         for tile in tiles:
-            if word in tile.text:
+            if word in tile.text.lower():
                 word_tiles_count += 1
+        page.search_enter_text(word.lower())
 
-        time.sleep(5)
-        page.search(word)
-        time.sleep(5)
 
         word_count_after_search = page.get_news_count_from_string()
         assert int(word_tiles_count) == int(word_count_after_search)
