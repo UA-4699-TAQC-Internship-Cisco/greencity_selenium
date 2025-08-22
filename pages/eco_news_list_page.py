@@ -101,9 +101,8 @@ class EcoNewsListPage(BasePage):
         self.driver \
             .find_element(By.XPATH, self.SEARCH_TEXTBOX) \
             .send_keys(word + Keys.ENTER)
-        ActionChains(self.driver).perform()
-
-        time.sleep(2)
+        # ActionChains(self.driver).perform()
+        self.driver.execute_script('return document.body.innerHTML')
         self.driver.implicitly_wait(10)
 
 

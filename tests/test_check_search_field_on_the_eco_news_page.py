@@ -17,9 +17,9 @@ def test_test_check_search_field(login_driver):
             if word in tile.text:
                 word_tiles_count += 1
 
+        time.sleep(5)
         page.search(word)
         time.sleep(5)
-
 
         word_count_after_search = page.get_news_count_from_string()
         assert int(word_tiles_count) == int(word_count_after_search)
