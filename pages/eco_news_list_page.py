@@ -26,15 +26,19 @@ class EcoNewsListPage(BasePage):
     # news
     FIRST_NEWS_ON_ECO_NEWS = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
     NEWS_COUNT_STRING = '//*[@id="main-content"]/div/div[3]/app-remaining-count/div/h2'
-    NEWS_TILES = "ul[aria-label='news list'] li"
+    NEWS_TILES = "ul[aria-label='news list'] li h3"
 
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
     second_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[2]/a/app-news-list-gallery-view/div/div/div[1]'
     TAGS_XPATH = {'NEWS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[1]/a',
-        'EVENTS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a',
-        'EDUCATION': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a',
-        'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
-        'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a', }
+                  'EVENTS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[2]/a',
+                  'EDUCATION': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[3]/a',
+                  'INITIATIVES': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[4]/a',
+                  'ADS': '//*[@id="main-content"]/div/div[2]/div/app-tag-filter/div/div/button[5]/a', }
+
+    # search
+    SEARCH_BUTTON = '//*[@id="main-content"]/div/div[1]/div/div/div[1]/span'
+    SEARCH_TEXTBOX = '//*[@id="main-content"]/div/div[1]/div/div/div[1]/input'
 
     @allure.step("Click 'Create news' button")
     def click_create_news_button(self):
@@ -47,7 +51,7 @@ class EcoNewsListPage(BasePage):
         actual_text = title_element.text
         assert actual_text == ECO_NEWS_TITLE_TEXT
 
-    def get_news_count_from_string(self)->int:
+    def get_news_count_from_string(self) -> int:
         count_string = self.driver.find_element(By.XPATH, self.NEWS_COUNT_STRING).text
         return int(count_string.split(' ')[0])
 
@@ -69,7 +73,7 @@ class EcoNewsListPage(BasePage):
 
     def is_tag_in_list(self, tag):
         tags = self.get_tags_of_first_and_second_news()
-        if tag in list:
+        if tag in tags:
             return 2 == tags.count(tag)
         else:
             return False
@@ -83,7 +87,7 @@ class EcoNewsListPage(BasePage):
         element_color = element.value_of_css_property("background-color")
         return self.EXPECTED_ACTIV_COLOR == element_color
 
-    def get_news_items(self):
+    def get_news_items_titles(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
@@ -109,3 +113,10 @@ class EcoNewsListPage(BasePage):
     def news_with_bookmark(self):
         bookmark = self.driver.find_elements(By.CSS_SELECTOR, ".flag-active")
         return bookmark
+
+    def search_enter_text(self, word):
+        self.driver.find_element(By.XPATH, self.SEARCH_BUTTON).click()
+
+        for _character in word:
+            self.driver.find_element(By.XPATH, self.SEARCH_TEXTBOX).send_keys(_character)
+            time.sleep(0.2)
