@@ -26,7 +26,7 @@ class EcoNewsListPage(BasePage):
     # news
     FIRST_NEWS_ON_ECO_NEWS = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
     NEWS_COUNT_STRING = '//*[@id="main-content"]/div/div[3]/app-remaining-count/div/h2'
-    NEWS_TILES = "ul[aria-label='news list'] li"
+    NEWS_TILES = "ul[aria-label='news list'] li h3"
 
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
     second_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[2]/a/app-news-list-gallery-view/div/div/div[1]'
@@ -73,7 +73,7 @@ class EcoNewsListPage(BasePage):
 
     def is_tag_in_list(self, tag):
         tags = self.get_tags_of_first_and_second_news()
-        if tag in list:
+        if tag in tags:
             return 2 == tags.count(tag)
         else:
             return False
@@ -87,7 +87,7 @@ class EcoNewsListPage(BasePage):
         element_color = element.value_of_css_property("background-color")
         return self.EXPECTED_ACTIV_COLOR == element_color
 
-    def get_news_items(self):
+    def get_news_items_titles(self):
         last_height = self.driver.execute_script("return document.body.scrollHeight")
 
         while True:
@@ -119,4 +119,4 @@ class EcoNewsListPage(BasePage):
 
         for _character in word:
             self.driver.find_element(By.XPATH, self.SEARCH_TEXTBOX).send_keys(_character)
-            time.sleep(0.1)
+            time.sleep(0.2)

@@ -9,17 +9,16 @@ from pages.eco_news_list_page import EcoNewsListPage
 def test_test_check_search_field(login_driver):
     page = EcoNewsListPage(login_driver)
     page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity/news")
-    search_words = ["Tigers", "Test", "Сміття"]
+    search_words = ["Test", "Tigers", "Сміття", "What"]
 
     for word in search_words:
 
         word_tiles_count = 0
-        tiles = page.get_news_items()
-        for tile in tiles:
-            if word in tile.text.lower():
+        titles = page.get_news_items_titles()
+        for title in titles:
+            if word.lower() in title.text.lower():
                 word_tiles_count += 1
-        page.search_enter_text(word.lower())
-
+        page.search_enter_text(word)
 
         word_count_after_search = page.get_news_count_from_string()
         assert int(word_tiles_count) == int(word_count_after_search)
