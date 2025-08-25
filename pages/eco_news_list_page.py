@@ -15,6 +15,7 @@ class EcoNewsListPage(BasePage):
     CREATE_NEWS = (By.XPATH, "//div[@id='create-button' and .//span[text()='Create news']]")
     ECO_NEWS_TITLE = (By.XPATH, "//h1[@class='main-header']")
     BOOKMARK_BUTTON = '//*[@id="main-content"]/div/div[1]/div/div/div[2]/span'
+    EVENT_ICON_BUTTON = '//*[@id="main-content"]/div/div[1]/div/div/div[3]/img'
     EXPECTED_ACTIV_COLOR = "rgba(19, 170, 87, 1)"
 
     # tag buttons
@@ -26,6 +27,8 @@ class EcoNewsListPage(BasePage):
     # news
     FIRST_NEWS_ON_ECO_NEWS = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3'
     NEWS_COUNT_STRING = '//*[@id="main-content"]/div/div[3]/app-remaining-count/div/h2'
+    NEWS_TITLES = "ul[aria-label='news list'] li"
+    NEWS_OWNER = "ul[aria-label='news list'] li p span"
     NEWS_TILES = "ul[aria-label='news list'] li"
 
     first_news_tags_list = '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[1]'
@@ -95,7 +98,7 @@ class EcoNewsListPage(BasePage):
             last_height = new_height
             self.driver.implicitly_wait(10)
 
-        elements = [el for el in self.driver.find_elements(By.CSS_SELECTOR, self.NEWS_TILES) if el.is_displayed()]
+        elements = [el for el in self.driver.find_elements(By.CSS_SELECTOR, self.NEWS_TITLES) if el.is_displayed()]
         self.driver.execute_script("window.scrollTo(0, 0);")
 
         return elements
@@ -109,3 +112,27 @@ class EcoNewsListPage(BasePage):
     def news_with_bookmark(self):
         bookmark = self.driver.find_elements(By.CSS_SELECTOR, ".flag-active")
         return bookmark
+
+    def news_written_by_user(self, user):
+        last_height = self.driver.execute_script("return document.body.scrollHeight")
+
+        while True:
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(self.SCROLL_PAUSE_TIME)
+            new_height = self.driver.execute_script("return document.body.scrollHeight")
+            if new_height == last_height:
+                break
+            last_height = new_height
+            self.driver.implicitly_wait(10)
+
+        news_written_by_user = [el for el in self.driver.find_elements(By.CSS_SELECTOR, self.NEWS_TILES) if el.is_displayed() and user in el.text]
+
+        self.driver.execute_script("window.scrollTo(0, 0);")
+
+        return news_written_by_user
+
+    def click_event_icon(self):
+        bookmark_button = self.driver.find_element(By.XPATH, self.EVENT_ICON_BUTTON)
+        bookmark_button.click()
+        self.driver.execute_script('return document.body.innerHTML')
+        
