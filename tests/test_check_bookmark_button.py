@@ -10,7 +10,7 @@ def test_check_bookmark_button(login_driver):
 
     time.sleep(3)
     page.click_bookmark_button()
-    bookmark_items = len(page.get_news_items())
+    bookmark_items = len(page.get_news_items_titles())
     page.click_bookmark_button()
     count_news_with_bookmark = len(page.news_with_bookmark())
 
