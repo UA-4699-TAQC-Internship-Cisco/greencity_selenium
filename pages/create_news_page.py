@@ -112,9 +112,6 @@ class CreateNewsPage(BasePage):
         publish_btn = self.get_wait().until(EC.element_to_be_clickable(self.PUBLISH_BUTTON))
         publish_btn.click()
 
-    def click_preview_button(self):
-        pass
-
     @allure.step("Check text 'Please wait while loading'")
     def check_loading_message(self):
         loading_text = self.get_wait().until(EC.presence_of_element_located(self.lOADING_MESSAGE))
@@ -144,3 +141,32 @@ class CreateNewsPage(BasePage):
         verify_username = self.get_wait().until(EC.presence_of_element_located(self.AUTHOR_ON_NEWS))
         actual_name = verify_username.text
         assert actual_name == EXPECTED_USERNAME
+
+    @allure.step("Enter text in to 'Title' field")
+    def enter_title(self, title):
+        enter_title = self.driver.find_element(*self.INPUT_TITLE)
+        enter_title.clear()
+        enter_title.send_keys(title)
+        return self
+
+    def press_tag(self, tag_name):
+        tags_index = {"NEWS":1, "EVENTS":2, "EDUCATION":3, "INITIATIVES":4, "ADS":5}
+        self.driver.find_element(By.XPATH, f"//app-tags-select/button[{tags_index[tag_name.upper()]}]/a/span").click()
+        return self
+
+    def enter_link(self, link):
+        link_fild = self.driver.find_element(*self.INPUT_SOURCE)
+        link_fild.clear()
+        link_fild.send_keys(link)
+        return self
+
+    def enter_body_text(self, text):
+        enter_content = self.driver.find_element(*self.CONTENT_FIELD)
+        enter_content.clear()
+        enter_content.send_keys(text)
+        return self
+
+    def click_preview_button(self):
+        self.driver.find_element(*self.PREVIEW_BUTTON).click()
+        return self
+
