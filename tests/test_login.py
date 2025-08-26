@@ -9,7 +9,7 @@ def test_positive_login(driver_uc):
     driver_uc.get(HOME_GREEN_CITY_UI)
     displayed_name = (EcoNewsListPage(driver_uc)
                       .get_header()
-                      .click_sign_in_btn()
+                      .click_sign_in()
                       .click_captcha()
                       .enter_email(USER_EMAIL)
                       .enter_password(USER_PASSWORD)

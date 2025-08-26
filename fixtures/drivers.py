@@ -30,6 +30,7 @@ def driver() -> Generator[webdriver.Chrome, None, None]:
 def driver_uc() -> Generator[DriverMethods, None, None]:
     driver = Driver(uc=True, headless=False)
     driver.maximize_window()
+    driver.implicitly_wait(IMPLICITLY_WAIT)
     yield driver
     driver.quit()
 
@@ -38,7 +39,7 @@ def driver_uc() -> Generator[DriverMethods, None, None]:
 def logged_in_driver(driver_uc):
     driver_uc.get(HOME_GREEN_CITY_UI)
     print("test started")
-    time.sleep(3)
+    time.sleep(10)
     header = BasePage(driver_uc).get_header()
     print(f"{header=}")
     (header
