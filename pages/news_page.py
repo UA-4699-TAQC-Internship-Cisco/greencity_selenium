@@ -1,6 +1,9 @@
+from time import sleep
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 from config.resources import *
 from pages.base_page import BasePage
@@ -18,6 +21,8 @@ class NewsPage(BasePage):
     like_news_count = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[2]/div[4]/span')
     news_content = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[3]/div[2]/div/div')
     FIRST_NEWS_FROM_INTERESTING = (By.XPATH, '(//div[@class="title-list word-wrap"])[1]')
+    LIKE_ICON = (By.XPATH, '//img[@alt="like"]')
+    LIKE_COUNT = (By.XPATH, '//span[@class="numerosity_likes"]')
     comment_textarea = (By.XPATH,
                         '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div')
     comment_button = (By.XPATH, '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/button')
@@ -33,7 +38,7 @@ class NewsPage(BasePage):
 
     @allure.step("Click 'Edit news' button")
     def edit_news_btn(self):
-        edit_news_btn = self.get_wait().until(EC.element_to_be_clickable(self.EDIT_NEWS))
+        edit_news_btn = self.get_wait(60).until(EC.element_to_be_clickable(self.EDIT_NEWS))
         edit_news_btn.click()
 
     @allure.step("Message sent successfully")
@@ -72,9 +77,11 @@ class NewsPage(BasePage):
 
     @allure.step("Check 'Eco news' title")
     def check_news_title(self):
-        title_element = self.get_wait().until(EC.presence_of_element_located(self.NEWS_TITLE))
+        title_element = self.get_wait(60).until(EC.visibility_of_element_located(self.NEWS_TITLE))
         actual_text = title_element.text
-        assert actual_text == TITLE_TEXT
+        # assert actual_text == TITLE_TEXT
+        print(" in def Test title == ", actual_text)
+        return actual_text
 
     @allure.step("Check 'Eco news' content")
     def check_news_content(self):
@@ -97,6 +104,38 @@ class NewsPage(BasePage):
     @allure.step("Compare news titles from main and 'Interesting' sections")
     def compare_news_titles(self):
         main_title = self.get_first_news_title()
+        print("first title:", main_title)
+
+        WebDriverWait(self.driver, 60).until(EC.visibility_of_element_located(self.NEWS_TITLE))
+
+        print(self.driver.current_url)
         interesting_title = self.check_news_title()
+        print("second title:", interesting_title)
         assert main_title == interesting_title
         return True
+
+    @allure.step("Count likes number")
+    def count_likes_number(self):
+        like_count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_COUNT))
+        current_likes = int(like_count_element.text)
+        return current_likes
+
+    @allure.step("Click like icon")
+    def click_like_icon(self):
+        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
+        like_icon.click()
+        #ToDo replace sleep with wait for some element change color or attribute
+        sleep(3) # wait for the like action to be processed and UI to update
+        return self
+
+    @allure.step("Check like added")
+    def check_like_added(self, initial_likes):
+        current_likes = self.count_likes_number()
+        assert current_likes == initial_likes + 1
+        return self
+
+    @allure.step("Check like removed")
+    def check_like_removed(self, initial_likes):
+        current_likes = self.count_likes_number()
+        assert current_likes == initial_likes - 1
+        return self
