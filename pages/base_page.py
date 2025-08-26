@@ -1,10 +1,9 @@
-from selenium.webdriver.support import expected_conditions as EC
-
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 from pages.base import Base
-from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BasePage(Base):
@@ -17,5 +16,5 @@ class BasePage(Base):
     def get_header(self):
         from pages.header_component import Header
         # return Header(self.driver, self.driver.find_element(*self.header_locator))
-        return Header(self.driver, WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(self.header_locator)))
+        return Header(self.driver,
+                      WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(self.header_locator)))

@@ -10,7 +10,6 @@ from pages.base_page import BasePage
 class NewsPage(BasePage):
     EDIT_NEWS = (By.XPATH, "//div[@class='edit-news']")
     EDIT_NEWS_BTN = (By.XPATH, "//button[contains(@class,'primary-global-button') and @disabled]")
-    navbar_eco_news = (By.XPATH, '/html/body/app-root/app-main/div/app-header/header/div[2]/div/div/nav/ul/li[1]/a')
     edit_news_button = (By.XPATH, '//*[@id="main-content"]/div/div[1]/div[2]/a/div')
     news_autor = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[2]/div[3]')
     news_title = (By.XPATH, '//*[@id="main-content"]/div/div[3]/div[1]/div')

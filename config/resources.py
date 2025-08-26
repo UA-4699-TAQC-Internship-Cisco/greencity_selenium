@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
+USERNAME = os.getenv("LOCALSTORAGE_name")
 USER_EMAIL = os.getenv("USER_EMAIL")
 USER_PASSWORD = os.getenv("USER_PASSWORD")
 EXPECTED_USERNAME = os.getenv("EXPECTED_USERNAME")
