@@ -1,3 +1,5 @@
+from time import sleep
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -122,6 +124,9 @@ class NewsPage(BasePage):
     def click_like_icon(self):
         like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
         like_icon.click()
+        #ToDo replace sleep with wait for some element change color or attribute
+        sleep(3) # wait for the like action to be processed and UI to update
+        return self
 
     @allure.step("Check like added")
     def check_like_added(self, initial_likes):
