@@ -15,7 +15,7 @@ class Base:
 
     def __init__(self, driver: Union[WebDriver, "DriverMethods"]):
         """Initialize with a WebDriver instance.
-        
+
         Args:
             driver: WebDriver or DriverMethods instance.
         """
@@ -23,10 +23,10 @@ class Base:
 
     def get_wait(self, explicit_wait: int = 20) -> WebDriverWait:
         """Get a WebDriverWait instance with specified timeout.
-        
+
         Args:
             explicit_wait: Timeout in seconds for explicit wait.
-            
+
         Returns:
             WebDriverWait: Configured wait instance.
         """

@@ -16,7 +16,7 @@ class BaseComponent(Base):
 
     def __init__(self, driver: Union[WebDriver, "DriverMethods"], element: Optional[WebElement] = None):
         """Initialize component with driver and optional element context.
-        
+
         Args:
             driver: WebDriver or DriverMethods instance.
             element: Optional WebElement for component context.

@@ -1,5 +1,6 @@
-import pytest
 import unittest
+
+import pytest
 
 from config.resources import NEWS_LINK1
 from pages.edit_news_page import EditNewsPage
@@ -16,6 +17,3 @@ def test_edit_news_content_field(logged_in_driver):
     first_news.click_interesting_news()
     first_news.check_news_title()
     first_news.compare_news_titles()
-
-
-

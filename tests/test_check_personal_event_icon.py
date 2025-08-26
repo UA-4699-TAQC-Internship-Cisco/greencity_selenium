@@ -1,4 +1,5 @@
 import pytest
+
 from config.resources import USERNAME
 from pages.eco_news_list_page import EcoNewsListPage
 

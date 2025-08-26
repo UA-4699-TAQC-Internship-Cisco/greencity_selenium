@@ -23,17 +23,23 @@ class NewsPage(BasePage):
     FIRST_NEWS_FROM_INTERESTING = (By.XPATH, '(//div[@class="title-list word-wrap"])[1]')
     LIKE_ICON = (By.XPATH, '//img[@alt="like"]')
     LIKE_COUNT = (By.XPATH, '//span[@class="numerosity_likes"]')
-    comment_textarea = (By.XPATH,
-                        '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div')
+    comment_textarea = (
+        By.XPATH,
+        '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div',
+    )
     comment_button = (By.XPATH, '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/button')
-    first_comment_text = (By.XPATH,
-                          '//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[3]/div[1]')
-    first_comment_author = (By.XPATH,
-                            '//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[2]/span')
+    first_comment_text = (
+        By.XPATH,
+        '//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[3]/div[1]',
+    )
+    first_comment_author = (
+        By.XPATH,
+        '//*[@id="main-content"]/div/app-comments-container/app-comments-list/div[1]/div[2]/span',
+    )
 
     @allure.step("Open page by link")
     def open_page_by_link(self, link):
-        self.driver.get(f'{link}')
+        self.driver.get(f"{link}")
         self.driver.implicitly_wait(10)
 
     @allure.step("Click 'Edit news' button")
@@ -67,8 +73,10 @@ class NewsPage(BasePage):
 
     @allure.step("Get first comment data")
     def get_first_comment_data(self):
-        data = {'author': self.driver.find_element(self.first_comment_author).text,
-                'text': self.driver.find_element(*self.first_comment_text).text}
+        data = {
+            "author": self.driver.find_element(self.first_comment_author).text,
+            "text": self.driver.find_element(*self.first_comment_text).text,
+        }
         return data
 
     @allure.step("Get news title")
@@ -124,8 +132,8 @@ class NewsPage(BasePage):
     def click_like_icon(self):
         like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
         like_icon.click()
-        #ToDo replace sleep with wait for some element change color or attribute
-        sleep(3) # wait for the like action to be processed and UI to update
+        # ToDo replace sleep with wait for some element change color or attribute
+        sleep(3)  # wait for the like action to be processed and UI to update
         return self
 
     @allure.step("Check like added")
