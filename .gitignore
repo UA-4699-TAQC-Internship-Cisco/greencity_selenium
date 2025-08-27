@@ -212,3 +212,6 @@ downloaded_files
 
 temp*.png
 
+# Code quality and maintenance scripts
+scripts/
+

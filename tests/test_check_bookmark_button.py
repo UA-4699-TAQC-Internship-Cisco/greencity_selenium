@@ -1,5 +1,7 @@
-import pytest
 import time
+
+import pytest
+
 from pages.eco_news_list_page import EcoNewsListPage
 
 
@@ -15,4 +17,3 @@ def test_check_bookmark_button(login_driver):
     count_news_with_bookmark = len(page.news_with_bookmark())
 
     assert count_news_with_bookmark == bookmark_items
-
