@@ -62,15 +62,6 @@ class NewsPage(BasePage):
     def like_post(self):
         pass
 
-    @allure.step("Open a first news item in the news list")
-    def go_to_first_news(self):
-        eco_news = self.driver.find_element(*self.navbar_eco_news)
-        eco_news.click()
-        self.driver.implicitly_wait(10)
-        first_news = self.driver.find_element(*self.first_news_on_eco_news_page)
-        first_news.click()
-        self.driver.implicitly_wait(10)
-
     @allure.step("Get first comment data")
     def get_first_comment_data(self):
         data = {

@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from config.resources import ECO_NEWS_TITLE_TEXT
 from pages.base_page import BasePage
 from pages.create_news_page import CreateNewsPage
+from pages.news_page import NewsPage
 
 
 class EcoNewsListPage(BasePage):
@@ -43,15 +44,16 @@ class EcoNewsListPage(BasePage):
     NEWS_OWNER = (By.CSS_SELECTOR, "ul[aria-label='news list'] li p span")
     NEWS_TILES = (By.CSS_SELECTOR, "ul[aria-label='news list'] li")
 
-
-    NEWS_TAGS_IN_TILES = '//app-news-list-gallery-view/div/div/div[1]'
+    NEWS_TAGS_IN_TILES = "//app-news-list-gallery-view/div/div/div[1]"
 
     # Tags button
-    TAGS_XPATH = {'NEWS': '//app-tag-filter/div/div/button[1]/a',
-                  'EVENTS': '//app-tag-filter/div/div/button[2]/a',
-                  'EDUCATION': '//app-tag-filter/div/div/button[3]/a',
-                  'INITIATIVES': '//app-tag-filter/div/div/button[4]/a',
-                  'ADS': '//app-tag-filter/div/div/button[5]/a', }
+    TAGS_XPATH = {
+        "NEWS": "//app-tag-filter/div/div/button[1]/a",
+        "EVENTS": "//app-tag-filter/div/div/button[2]/a",
+        "EDUCATION": "//app-tag-filter/div/div/button[3]/a",
+        "INITIATIVES": "//app-tag-filter/div/div/button[4]/a",
+        "ADS": "//app-tag-filter/div/div/button[5]/a",
+    }
 
     # Search elements
     SEARCH_BUTTON = (By.XPATH, "//*[@id='main-content']/div/div[1]/div/div/div[1]/span")
@@ -66,8 +68,16 @@ class EcoNewsListPage(BasePage):
         "ADS": ADS_TAG_BUTTON,
     }
 
+    @allure.step("Open a first news item in the news list")
+    def go_to_first_news(self) -> NewsPage:
+        first_news = self.driver.find_element(*self.FIRST_NEWS_ON_ECO_NEWS)
+        first_news.click()
+        self.driver.implicitly_wait(10)
+        return NewsPage(self.driver)
+
     @allure.step("Click 'Create news' button")
     def click_create_news_button(self) -> CreateNewsPage:
+        """Click the "create news" button and go to the CreateNewsPage."""
         publish_btn = self.get_wait().until(EC.element_to_be_clickable(self.CREATE_NEWS))
         publish_btn.click()
         return CreateNewsPage(self.driver)
@@ -107,7 +117,6 @@ class EcoNewsListPage(BasePage):
         Returns:
             List of tag strings from all news items.
         """
-
         try:
             last_height = self.driver.execute_script("return document.body.scrollHeight")
 
@@ -119,13 +128,14 @@ class EcoNewsListPage(BasePage):
                     break
                 last_height = new_height
                 self.driver.implicitly_wait(10)
-            all_tags_on_page = [el.text for el in self.driver.find_elements(By.XPATH, self.NEWS_TAGS_IN_TILES) if el.is_displayed()]
+            all_tags_on_page = [
+                el.text for el in self.driver.find_elements(By.XPATH, self.NEWS_TAGS_IN_TILES) if el.is_displayed()
+            ]
             self.driver.execute_script("window.scrollTo(0, 0);")
 
             return all_tags_on_page
         except NoSuchElementException:
             return []
-
 
     @allure.step("Check if a tag filter is active")
     def is_tag_filter_active(self, tag: str) -> bool:
@@ -137,7 +147,6 @@ class EcoNewsListPage(BasePage):
         Returns:
             True if the tag filter is active, False otherwise.
         """
-
         if tag not in self.TAG_BUTTON_MAP:
             raise ValueError(f"Unknown tag: {tag}. Available tags: {list(self.TAG_BUTTON_MAP.keys())}")
 
