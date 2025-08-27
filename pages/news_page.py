@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-from config.resources import *
+from config.resources import CONTENT_TEXT
 from pages.base_page import BasePage
 
 
@@ -134,16 +134,4 @@ class NewsPage(BasePage):
         like_icon.click()
         # ToDo replace sleep with wait for some element change color or attribute
         sleep(3)  # wait for the like action to be processed and UI to update
-        return self
-
-    @allure.step("Check like added")
-    def check_like_added(self, initial_likes):
-        current_likes = self.count_likes_number()
-        assert current_likes == initial_likes + 1
-        return self
-
-    @allure.step("Check like removed")
-    def check_like_removed(self, initial_likes):
-        current_likes = self.count_likes_number()
-        assert current_likes == initial_likes - 1
         return self
