@@ -5,6 +5,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 def test_check_preview_page_button(login_driver):
     """Test to verify that the preview page displays the correct information
     after entering news details on the create news page."""
+
     news_title = "This is a test news title"
     news_link = "https://www.greencity.cx.ua/#/greenCity"
     body_text = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt \

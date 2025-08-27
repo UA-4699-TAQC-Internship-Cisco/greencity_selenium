@@ -4,8 +4,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 @pytest.mark.eco_news_filter_by_tags
 def test_eco_news_filter_by_tags(login_driver):
-    page = EcoNewsListPage(login_driver)
-    page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity/news")
+    page = EcoNewsListPage(login_driver).get_header().click_eco_news_button()
     tags = ["NEWS", "EVENTS", "EDUCATION", "INITIATIVES", "ADS"]
     # step_1
     for tag in tags:

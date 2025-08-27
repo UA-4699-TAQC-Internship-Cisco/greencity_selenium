@@ -7,8 +7,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 @pytest.mark.check_bookmark_button
 def test_check_bookmark_button(login_driver):
-    page = EcoNewsListPage(login_driver)
-    page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity/news")
+    page = EcoNewsListPage(login_driver).get_header().click_eco_news_button()
 
     time.sleep(3)
     page.click_bookmark_button()

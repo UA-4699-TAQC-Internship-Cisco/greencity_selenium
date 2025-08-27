@@ -12,8 +12,7 @@ def test_check_search_field(login_driver):
     This test verifies that the search functionality correctly filters news items
     based on the search terms entered.
     """
-    page = EcoNewsListPage(login_driver)
-    page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity/news")
+    page = EcoNewsListPage(login_driver).get_header().click_eco_news_button()
 
     # Wait for page to load
     wait = WebDriverWait(login_driver, 10)
