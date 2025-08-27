@@ -6,6 +6,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 @pytest.mark.login
 def test_positive_login(driver_uc):
+    """Test to verify successful login and correct username display."""
     driver_uc.get(HOME_GREEN_CITY_UI)
     displayed_name = (
         EcoNewsListPage(driver_uc)
@@ -21,4 +22,4 @@ def test_positive_login(driver_uc):
 
     assert displayed_name == EXPECTED_USERNAME
 
-    driver_uc.save_screenshot("username_check.png")
+    driver_uc.save_screenshot("temp_username_check.png")

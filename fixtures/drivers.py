@@ -20,6 +20,8 @@ from config.resources import (
 )
 from pages import BasePage
 
+__all__ = ["driver", "driver_uc", "logged_in_driver", "login_driver"]
+
 
 @pytest.fixture()
 def driver() -> Generator[webdriver.Chrome, None, None]:
