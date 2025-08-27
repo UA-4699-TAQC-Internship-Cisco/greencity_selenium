@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from config.resources import CONTENT_TEXT, TITLE_TEXT, EXPECTED_USERNAME, LINK
 from pages.base_page import BasePage
+from pages.preview_create_news_page import PreviewNewsPage
 
 
 class CreateNewsPage(BasePage):
@@ -166,7 +167,7 @@ class CreateNewsPage(BasePage):
         enter_content.send_keys(text)
         return self
 
-    def click_preview_button(self):
+    def click_preview_button(self) -> PreviewNewsPage:
         self.driver.find_element(*self.PREVIEW_BUTTON).click()
-        return self
+        return PreviewNewsPage(self.driver)
 

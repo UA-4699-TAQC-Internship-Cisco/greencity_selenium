@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from config.resources import ECO_NEWS_TITLE_TEXT
 from pages.base_page import BasePage
+from pages.create_news_page import CreateNewsPage
 
 
 class EcoNewsListPage(BasePage):
@@ -44,9 +45,10 @@ class EcoNewsListPage(BasePage):
     SEARCH_TEXTBOX = '//*[@id="main-content"]/div/div[1]/div/div/div[1]/input'
 
     @allure.step("Click 'Create news' button")
-    def click_create_news_button(self):
+    def click_create_news_button(self) -> CreateNewsPage:
         publish_btn = self.get_wait().until(EC.element_to_be_clickable(self.CREATE_NEWS))
         publish_btn.click()
+        return CreateNewsPage(self.driver)
 
     @allure.step("Check 'Eco news' page title")
     def check_eco_news_title(self):
