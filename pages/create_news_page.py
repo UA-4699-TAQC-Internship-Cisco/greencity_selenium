@@ -2,7 +2,7 @@ import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from config.resources import CONTENT_TEXT, TITLE_TEXT, EXPECTED_USERNAME, LINK
+from config.resources import CONTENT_TEXT, EXPECTED_USERNAME, LINK, TITLE_TEXT
 from pages.base_page import BasePage
 from pages.preview_create_news_page import PreviewNewsPage
 
@@ -30,14 +30,19 @@ class CreateNewsPage(BasePage):
 
     lOADING_MESSAGE = (By.XPATH, "//p[@class='header' and text()='Please wait while loading...']")
 
-    TITLE_ON_NEWS = (By.XPATH,
-                     f"(//div[@class='title-list word-wrap']/h3[contains(normalize-space(), '{TITLE_TEXT}')])[1]")
+    TITLE_ON_NEWS = (
+        By.XPATH,
+        f"(//div[@class='title-list word-wrap']/h3[contains(normalize-space(), '{TITLE_TEXT}')])[1]",
+    )
 
     TAG_ON_NEWS = (By.XPATH, "(//app-news-list-gallery-view//span[contains(text(), 'News')])[1]")
 
-    TEXT_ON_NEWS = (By.XPATH, f"(//li[.//h3[contains(normalize-space(), \
+    TEXT_ON_NEWS = (
+        By.XPATH,
+        f"(//li[.//h3[contains(normalize-space(), \
           'What is Lorem Ipsum?')]]//p[contains(normalize-space(), \
-          '{CONTENT_TEXT}')])[1]")
+          '{CONTENT_TEXT}')])[1]",
+    )
 
     AUTHOR_ON_NEWS = (By.XPATH, "(//app-news-list-gallery-view//span[contains(text(), 'Marta')])[1]")
     ECO_NEWS_BTN = (By.XPATH, "//a[contains(@class,'url-name') and normalize-space()='Eco news']")
@@ -151,7 +156,7 @@ class CreateNewsPage(BasePage):
         return self
 
     def press_tag(self, tag_name):
-        tags_index = {"NEWS":1, "EVENTS":2, "EDUCATION":3, "INITIATIVES":4, "ADS":5}
+        tags_index = {"NEWS": 1, "EVENTS": 2, "EDUCATION": 3, "INITIATIVES": 4, "ADS": 5}
         self.driver.find_element(By.XPATH, f"//app-tags-select/button[{tags_index[tag_name.upper()]}]/a/span").click()
         return self
 
@@ -170,4 +175,3 @@ class CreateNewsPage(BasePage):
     def click_preview_button(self) -> PreviewNewsPage:
         self.driver.find_element(*self.PREVIEW_BUTTON).click()
         return PreviewNewsPage(self.driver)
-
