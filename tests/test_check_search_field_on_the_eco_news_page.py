@@ -7,7 +7,8 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 @pytest.mark.test_check_search_field_on_the_eco_news_page
 def test_check_search_field(login_driver):
-    """Test search field functionality on the eco news page.
+    """
+    Test search field functionality on the eco news page.
 
     This test verifies that the search functionality correctly filters news items
     based on the search terms entered.

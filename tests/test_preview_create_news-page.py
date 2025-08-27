@@ -3,11 +3,7 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 
 def test_check_preview_page_button(login_driver):
-    """
-    Test.
-
-    Check the accuracy of the information in the sent message.
-    """
+    """Test the accuracy of the information in the preview page."""
     news_title = "This is a test news title"
     news_link = "https://www.greencity.cx.ua/#/greenCity"
     body_text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt \
