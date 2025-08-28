@@ -5,8 +5,8 @@ from pages.eco_news_list_page import EcoNewsListPage
 
 @pytest.mark.check_items_count_by_tags
 def test_check_items_count_by_tags(login_driver):
-    page = EcoNewsListPage(login_driver)
-    page.open_page_by_link("https://www.greencity.cx.ua/#/greenCity/news")
+    """Check the current count of news with tag."""
+    page = EcoNewsListPage(login_driver).get_header().click_eco_news_button()
     tags = ["NEWS", "EVENTS", "EDUCATION", "INITIATIVES", "ADS"]
 
     # TOTAL
