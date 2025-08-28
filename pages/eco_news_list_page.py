@@ -171,7 +171,7 @@ class EcoNewsListPage(BasePage):
                 break
             last_height = new_height
 
-        elements = [el for el in self.driver.find_elements(*self.NEWS_TILES) if el.is_displayed()]
+        elements = [el for el in self.driver.find_elements(*self.NEWS_TITLES) if el.is_displayed()]
         self.driver.execute_script("window.scrollTo(0, 0);")
         return elements
 

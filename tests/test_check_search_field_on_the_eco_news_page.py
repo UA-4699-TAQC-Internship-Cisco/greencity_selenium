@@ -19,7 +19,7 @@ def test_check_search_field(login_driver):
     wait = WebDriverWait(login_driver, 10)
     wait.until(EC.presence_of_element_located(page.NEWS_COUNT_STRING))
 
-    search_words = ["What", "Tigers", "Сміття"]
+    search_words = ["What", "Tigers", "Test"]
 
     for word in search_words:
         word_tiles_count = 0
