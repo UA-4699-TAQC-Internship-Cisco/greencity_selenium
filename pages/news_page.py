@@ -65,9 +65,10 @@ class NewsPage(BasePage):
     @allure.step("Get first comment data")
     def get_first_comment_data(self):
         data = {
-            "author": self.driver.find_element(self.first_comment_author).text,
+            "author": self.driver.find_element(*self.first_comment_author).text,
             "text": self.driver.find_element(*self.first_comment_text).text,
         }
+        print(data)
         return data
 
     @allure.step("Get news title")
