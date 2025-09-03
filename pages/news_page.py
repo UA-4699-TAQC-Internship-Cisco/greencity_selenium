@@ -1,3 +1,4 @@
+import time
 from time import sleep
 
 import allure
@@ -114,15 +115,26 @@ class NewsPage(BasePage):
         return True
 
     @allure.step("Count likes number")
-    def count_likes_number(self):
-        like_count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_COUNT))
+    def count_likes_number(self, locator):
+        like_count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(locator))
         current_likes = int(like_count_element.text)
+        sleep(3)
         return current_likes
 
     @allure.step("Click like icon")
-    def click_like_icon(self):
-        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
+    def click_like_icon(self, locator):
+        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(locator))
         like_icon.click()
         # ToDo replace sleep with wait for some element change color or attribute
         sleep(3)  # wait for the like action to be processed and UI to update
+        return self
+
+    @allure.step("Scroll page to element")
+    def scroll_to_element(self, locator):
+        element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(locator))
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({ behavior: 'smooth', block: 'start', \
+            inline: 'nearest'});",
+            element,
+        )
         return self
