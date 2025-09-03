@@ -37,7 +37,7 @@ class EcoNewsListPage(BasePage):
     # News elements
     FIRST_NEWS_ON_ECO_NEWS = (
         By.XPATH,
-        "//*[@id='main-content']/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/div/div[2]/div[1]/h3",
+        '//*[@id="main-content"]/div/div[4]/ul/li[1]/a/app-news-list-gallery-view/div/img',
     )
     NEWS_COUNT_STRING = (By.XPATH, "//*[@id='main-content']/div/div[3]/app-remaining-count/div/h2")
     NEWS_TITLES = (By.CSS_SELECTOR, "ul[aria-label='news list'] li h3")
