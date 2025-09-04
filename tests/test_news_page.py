@@ -18,12 +18,12 @@ def test_like_dislike_news(logged_in_driver):
     logged_in_driver.get(NEWS_LINK2)
 
     like_news = NewsPage(logged_in_driver)
-    initial_count_likes_number = like_news.count_likes_number(LIKE_COUNT)
+    initial_count_likes_number = like_news.count_likes_number()
 
-    current_count_likes_number = like_news.click_like_icon(LIKE_ICON).count_likes_number(LIKE_COUNT)
+    current_count_likes_number = like_news.click_like_icon().count_likes_number()
     assert current_count_likes_number == initial_count_likes_number + 1, "Like was not added"
 
-    current_count_likes_number = like_news.click_like_icon(LIKE_ICON).count_likes_number(LIKE_COUNT)
+    current_count_likes_number = like_news.click_like_icon().count_likes_number()
     assert current_count_likes_number == initial_count_likes_number, "Like was not removed"
 
 
@@ -32,11 +32,11 @@ def test_like_dislike_news_comment(logged_in_driver):
     """Test checks the functionality of liking and disliking a news comment."""
     logged_in_driver.get(NEWS_LINK2)
 
-    like_news = NewsPage(logged_in_driver)
-    initial_count_likes_number = like_news.count_likes_number(COMMENT_LIKE_COUNT)
+    like_comment = NewsPage(logged_in_driver)
+    initial_count_likes_number = like_comment.count_comment_likes()
 
-    current_count_likes_number = like_news.click_like_icon(COMMENT_LIKE_ICON).count_likes_number(COMMENT_LIKE_COUNT)
+    current_count_likes_number = like_comment.click_comment_like_icon().count_comment_likes()
     assert current_count_likes_number == initial_count_likes_number + 1, "Like was not added"
-
-    # current_count_likes_number = like_news.click_like_icon(LIKE_ICON).count_likes_number(COMMENT_LIKE_COUNT)
-    # assert current_count_likes_number == initial_count_likes_number, "Like was not removed"
+    like_comment.page_reload()
+    current_count_likes_number = like_comment.click_comment_like_icon().count_comment_likes()
+    assert current_count_likes_number == initial_count_likes_number, "Like was not removed"

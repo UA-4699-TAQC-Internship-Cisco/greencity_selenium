@@ -1,3 +1,5 @@
+import time
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,7 +17,11 @@ class EditNewsPage(BasePage):
     YES_CANCEL_BTN = (By.XPATH, "//button[@class='m-btn primary-global-button']")
     CONTENT_FIELD = (By.XPATH, "//div[@class='ql-editor ql-blank']")
     COMMENT_FIELD = (By.XPATH, "//div[@class='comment-textarea']")
-    ADD_COMMENT_IMAGE = (By.XPATH, "//mat-icon[text()='image']")
+    COMMENT_BUTTON = (By.XPATH, "//button[@class='primary-global-button']")
+    ADD_COMMENT_IMAGE = (
+        By.XPATH,
+        "//button[@class='image-upload-btn mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']",
+    )
     IMAGE_PATH = r"config/test_image.png"
 
     @allure.step("Open News Page")
@@ -77,10 +83,17 @@ class EditNewsPage(BasePage):
         return self
 
     @allure.step("Add image to news comment")
-    def click_add_image_button(self):
-        pass
-
-    @allure.step("Add image to news comment")
-    def add_image_to_comment(self):
+    def click_add_image_icon(self):
         file_input = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(self.ADD_COMMENT_IMAGE))
         file_input.send_keys(self.IMAGE_PATH)
+
+    @allure.step("Click comment button")
+    def click_comment_button(self):
+        comment_btn = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_BUTTON))
+        comment_btn.click()
+        return self
+
+    @allure.step("Page reload")
+    def page_reload(self):
+        self.driver.refresh()
+        return self

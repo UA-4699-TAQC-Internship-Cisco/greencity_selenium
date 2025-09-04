@@ -24,6 +24,9 @@ class NewsPage(BasePage):
     FIRST_NEWS_FROM_INTERESTING = (By.XPATH, '(//div[@class="title-list word-wrap"])[1]')
     LIKE_ICON = (By.XPATH, '//img[@alt="like"]')
     LIKE_COUNT = (By.XPATH, '//span[@class="numerosity_likes"]')
+    COMMENT_AREA = (By.XPATH, '//div[@class="comment-date-likes"]')
+    COMMENT_LIKE_COUNT = (By.XPATH, '//span[@class="like-amount"]')
+    COMMENT_LIKE_ICON = (By.XPATH, '//div[@class="comment-likes"]//img[@alt="like"]')
     comment_textarea = (
         By.XPATH,
         '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div',
@@ -115,18 +118,36 @@ class NewsPage(BasePage):
         return True
 
     @allure.step("Count likes number")
-    def count_likes_number(self, locator):
-        like_count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(locator))
+    def count_likes_number(self):
+        like_count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_COUNT))
         current_likes = int(like_count_element.text)
-        sleep(3)
         return current_likes
 
     @allure.step("Click like icon")
-    def click_like_icon(self, locator):
-        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(locator))
+    def click_like_icon(self):
+        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
         like_icon.click()
         # ToDo replace sleep with wait for some element change color or attribute
-        sleep(3)  # wait for the like action to be processed and UI to update
+        sleep(3)
+        return self
+
+    @allure.step("Count comment likes number")
+    def count_comment_likes(self):
+        count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_LIKE_COUNT))
+        current_likes = int(count_element.text)
+        return current_likes
+
+    @allure.step("Click commnet like icon")
+    def click_comment_like_icon(self):
+        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_LIKE_ICON))
+        like_icon.click()
+        # ToDo replace sleep with wait for some element change color or attribute
+        sleep(3)
+        return self
+
+    @allure.step("Page reload")
+    def page_reload(self):
+        self.driver.refresh()
         return self
 
     @allure.step("Scroll page to element")

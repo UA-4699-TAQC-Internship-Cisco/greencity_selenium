@@ -29,8 +29,8 @@ def test_comment_with_image(logged_in_driver):
     edit_comment = EditNewsPage(logged_in_driver)
 
     edit_comment.add_news_comment()
-    edit_comment.add_image_to_comment()
-    # like_news.click_comment_button()
-    # like_news.check_image_present()
-    # like_news.verify_comment_text()
-    # like_news.verify_commenter()
+    edit_comment.click_add_image_icon()
+    edit_comment.click_comment_button()
+    # edit_comment.check_image_present()
+    # edit_comment.verify_comment_text()
+    # edit_comment.verify_commenter()
