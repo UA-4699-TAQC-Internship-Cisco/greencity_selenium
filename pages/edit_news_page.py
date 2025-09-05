@@ -1,9 +1,15 @@
+import os
+
 import allure
+from dotenv import load_dotenv
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
-from config.resources import *
+from config.resources import COMMENT_TEXT, EDITED_CONTENT, EDITED_CONTENT_TEXT, NEWS_LINK, WARNING_MSG1, WARNING_MSG2
 from pages.base_page import BasePage
+
+load_dotenv()
 
 
 class EditNewsPage(BasePage):
@@ -13,6 +19,18 @@ class EditNewsPage(BasePage):
     EDIT_NEWS_BTN = (By.XPATH, "//button[contains(@class,'primary-global-button') and @disabled]")
     YES_CANCEL_BTN = (By.XPATH, "//button[@class='m-btn primary-global-button']")
     CONTENT_FIELD = (By.XPATH, "//div[@class='ql-editor ql-blank']")
+    COMMENT_FIELD = (By.XPATH, "//div[@class='comment-textarea']")
+    NEWS_COMMENT = (By.XPATH, f"//div[contains(text(),'{COMMENT_TEXT}')]")
+    COMMENT_BUTTON = (By.XPATH, "//button[@class='primary-global-button']")
+    ADD_COMMENT_IMAGE = (
+        By.XPATH,
+        "//button[@class='image-upload-btn mdc-icon-button mat-mdc-icon-button mat-unthemed mat-mdc-button-base']",
+    )
+    INPUT_IMAGE = (By.XPATH, "//input[@id='upload']")
+    IMAGE_PATH = r"D:\TAQC_Python\greencity_selenium\config\test_image.png"
+    UPLOADED_IMAGE = (By.XPATH, "//img[@alt='comment']")
+    EXPECTED_USERNAME = os.getenv("EXPECTED_USERNAME")
+    COMMENTER = (By.XPATH, f"//span[normalize-space()='{EXPECTED_USERNAME}']")
 
     @allure.step("Open News Page")
     def open_news_page(self):
@@ -63,3 +81,53 @@ class EditNewsPage(BasePage):
     def click_yes_cancel_btn(self):
         cancel_btn = self.get_wait().until(EC.element_to_be_clickable(self.YES_CANCEL_BTN))
         cancel_btn.click()
+
+    @allure.step("Add news comment")
+    def add_news_comment(self):
+        enter_content = self.get_wait().until(EC.element_to_be_clickable(self.COMMENT_FIELD))
+        assert enter_content.is_enabled()
+        enter_content.clear()
+        enter_content.send_keys(COMMENT_TEXT)
+        return self
+
+    @allure.step("Add image to news comment")
+    def click_add_image_icon(self):
+        file_input = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(self.ADD_COMMENT_IMAGE))
+        file_input.click()
+        return self
+
+    @allure.step("Click comment button")
+    def click_comment_button(self):
+        comment_btn = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_BUTTON))
+        comment_btn.click()
+        return self
+
+    @allure.step("Upload an image")
+    def upload_image(self):
+        image_src = self.get_wait(60).until(EC.presence_of_element_located(self.INPUT_IMAGE))
+        image_src.send_keys(self.IMAGE_PATH)
+        return self
+
+    @allure.step("heck image presence")
+    def check_image_present(self):
+        image = self.get_wait(60).until(EC.presence_of_element_located(self.UPLOADED_IMAGE))
+        src_value = image.get_attribute("src")
+        assert src_value and src_value.strip() != ""
+        return self
+
+    @allure.step("Check comment text")
+    def check_comment_text(self):
+        comment_text = self.get_wait(60).until(EC.presence_of_element_located(self.NEWS_COMMENT))
+        actual_text = comment_text.text
+        assert actual_text == COMMENT_TEXT
+
+    @allure.step("Check commenter name")
+    def check_commenter_name(self):
+        commenter = self.get_wait(60).until(EC.presence_of_element_located(self.COMMENTER))
+        actual_text = commenter.text
+        assert actual_text == self.EXPECTED_USERNAME
+
+    @allure.step("Page reload")
+    def page_reload(self):
+        self.driver.refresh()
+        return self

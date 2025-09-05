@@ -6,7 +6,8 @@ ignore =
     F401,
     D100,
     D101,
-    D102
+    D102,
+    D103
 exclude =
     .git,
     __pycache__,
