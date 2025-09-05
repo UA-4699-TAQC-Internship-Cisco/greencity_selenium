@@ -30,7 +30,8 @@ def test_comment_with_image(logged_in_driver):
 
     edit_comment.add_news_comment()
     edit_comment.click_add_image_icon()
+    edit_comment.upload_image()
     edit_comment.click_comment_button()
-    # edit_comment.check_image_present()
-    # edit_comment.verify_comment_text()
-    # edit_comment.verify_commenter()
+    edit_comment.check_image_present()
+    edit_comment.check_comment_text()
+    edit_comment.check_commenter_name()
