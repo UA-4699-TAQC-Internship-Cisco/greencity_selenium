@@ -46,6 +46,9 @@ TITLE_TEXT: str = "What is Lorem Ipsum?"
 LINK: str = "https://www.lipsum.com/"
 NEWS_TAG: str = "NEWS"
 
+# Comment
+COMMENT_TEXT = "This is a test comment"
+
 # News URLs for testing
 NEWS_LINK: str = "https://www.greencity.cx.ua/#/greenCity/news/10"
 NEWS_LINK1: str = "https://www.greencity.cx.ua/#/greenCity/news/9"
