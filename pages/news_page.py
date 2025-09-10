@@ -2,6 +2,7 @@ import time
 from time import sleep
 
 import allure
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -24,9 +25,11 @@ class NewsPage(BasePage):
     FIRST_NEWS_FROM_INTERESTING = (By.XPATH, '(//div[@class="title-list word-wrap"])[1]')
     LIKE_ICON = (By.XPATH, '//img[@alt="like"]')
     LIKE_COUNT = (By.XPATH, '//span[@class="numerosity_likes"]')
-    COMMENT_AREA = (By.XPATH, '//div[@class="comment-date-likes"]')
+    COMMENT_LIKE_COUNT = (By.XPATH, "//app-comments-list/div[1]/div[2]/div/div[2]/span")
     COMMENT_LIKE_COUNT = (By.XPATH, '//span[@class="like-amount"]')
+    COMMENT_AREA = (By.XPATH, '//div[@class="comment-date-likes"]')
     COMMENT_LIKE_ICON = (By.XPATH, '//div[@class="comment-likes"]//img[@alt="like"]')
+
     comment_textarea = (
         By.XPATH,
         '//*[@id="main-content"]/div/app-comments-container/app-add-comment/form/div[2]/app-comment-textarea/div/div',
@@ -160,3 +163,14 @@ class NewsPage(BasePage):
             element,
         )
         return self
+
+    @allure.step("Double click on comment like")
+    def double_click_comment_like(self):
+        like_icon = self.driver.find_element(*self.LIKE_ICON)
+        actions = ActionChains(self.driver)
+        actions.double_click(like_icon).perform()
+        return self
+
+    @allure.step("Get comment likes count")
+    def get_comment_likes_count(self):
+        return int(self.driver.find_element(*self.COMMENT_LIKE_COUNT).text)
