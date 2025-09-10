@@ -1,3 +1,4 @@
+import time
 from time import sleep
 
 import allure
@@ -25,6 +26,9 @@ class NewsPage(BasePage):
     LIKE_ICON = (By.XPATH, '//img[@alt="like"]')
     LIKE_COUNT = (By.XPATH, '//span[@class="numerosity_likes"]')
     COMMENT_LIKE_COUNT = (By.XPATH, "//app-comments-list/div[1]/div[2]/div/div[2]/span")
+    COMMENT_LIKE_COUNT = (By.XPATH, '//span[@class="like-amount"]')
+    COMMENT_AREA = (By.XPATH, '//div[@class="comment-date-likes"]')
+    COMMENT_LIKE_ICON = (By.XPATH, '//div[@class="comment-likes"]//img[@alt="like"]')
 
     comment_textarea = (
         By.XPATH,
@@ -128,7 +132,36 @@ class NewsPage(BasePage):
         like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.LIKE_ICON))
         like_icon.click()
         # ToDo replace sleep with wait for some element change color or attribute
-        sleep(3)  # wait for the like action to be processed and UI to update
+        sleep(3)
+        return self
+
+    @allure.step("Count comment likes number")
+    def count_comment_likes(self):
+        count_element = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_LIKE_COUNT))
+        current_likes = int(count_element.text)
+        return current_likes
+
+    @allure.step("Click commnet like icon")
+    def click_comment_like_icon(self):
+        like_icon = WebDriverWait(self.driver, 60).until(EC.presence_of_element_located(self.COMMENT_LIKE_ICON))
+        like_icon.click()
+        # ToDo replace sleep with wait for some element change color or attribute
+        sleep(3)
+        return self
+
+    @allure.step("Page reload")
+    def page_reload(self):
+        self.driver.refresh()
+        return self
+
+    @allure.step("Scroll page to element")
+    def scroll_to_element(self, locator):
+        element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located(locator))
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({ behavior: 'smooth', block: 'start', \
+            inline: 'nearest'});",
+            element,
+        )
         return self
 
     @allure.step("Double click on comment like")
